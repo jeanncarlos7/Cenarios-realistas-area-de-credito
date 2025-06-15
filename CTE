@@ -1,0 +1,18 @@
+## Objetivo: Identificar clientes com score abaixo de 500 e exposição acima de R$50.000, para recomendação de revisão de limite.
+
+WITH ExposicaoCliente AS (
+    SELECT 
+        co.ClienteID,
+        SUM(co.ValorLiberado) AS ExposicaoTotal
+    FROM Contratos co
+    GROUP BY co.ClienteID
+)
+
+SELECT 
+    c.ClienteID,
+    c.Nome,
+    c.ScoreCredito,
+    e.ExposicaoTotal
+FROM Clientes c
+JOIN ExposicaoCliente e ON c.ClienteID = e.ClienteID
+WHERE c.ScoreCredito < 500 AND e.ExposicaoTotal > 50000;
