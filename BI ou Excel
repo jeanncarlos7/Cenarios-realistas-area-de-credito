@@ -1,0 +1,10 @@
+## Objetivo: Preparar dados para Power BI ou Excel, com exposição por região e status do contrato.
+
+SELECT 
+    c.Regiao,
+    co.StatusContrato,
+    COUNT(co.ContratoID) AS QtdeContratos,
+    SUM(co.ValorLiberado) AS TotalExposicao
+FROM Clientes c
+JOIN Contratos co ON c.ClienteID = co.ClienteID
+GROUP BY c.Regiao, co.StatusContrato;
