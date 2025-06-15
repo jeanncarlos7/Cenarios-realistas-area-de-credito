@@ -1,0 +1,12 @@
+## Objetivo: Descobrir a última parcela vencida de cada cliente.
+
+SELECT 
+    c.ClienteID,
+    c.Nome,
+    (
+        SELECT MAX(p.DataVencimento)
+        FROM Parcelas p
+        JOIN Contratos co ON p.ContratoID = co.ContratoID
+        WHERE co.ClienteID = c.ClienteID AND p.Status = 'Em Atraso'
+    ) AS UltimaParcelaVencida
+FROM Clientes c;
