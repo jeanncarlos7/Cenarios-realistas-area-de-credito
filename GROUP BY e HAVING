@@ -1,0 +1,11 @@
+## Objetivo: Analisar a inadimplência média por produto e destacar somente produtos com inadimplência acima de R$10.000.
+
+SELECT 
+    co.Produto,
+    COUNT(p.ParcelaID) AS QtdeParcelasAtrasadas,
+    SUM(p.Valor) AS TotalInadimplente
+FROM Contratos co
+JOIN Parcelas p ON co.ContratoID = p.ContratoID
+WHERE p.Status = 'Em Atraso'
+GROUP BY co.Produto
+HAVING SUM(p.Valor) > 10000;
