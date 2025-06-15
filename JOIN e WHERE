@@ -1,0 +1,16 @@
+## Objetivo: Gerar uma lista de clientes com parcelas vencidas há mais de 60 dias, trazendo dados do cliente, contrato e status da operação.
+
+SELECT 
+    c.ClienteID,
+    c.Nome,
+    co.ContratoID,
+    co.Produto,
+    p.ParcelaID,
+    p.DataVencimento,
+    p.Valor,
+    p.Status
+FROM Clientes c
+JOIN Contratos co ON c.ClienteID = co.ClienteID
+JOIN Parcelas p ON co.ContratoID = p.ContratoID
+WHERE p.Status = 'Em Atraso'
+  AND DATEDIFF(DAY, p.DataVencimento, GETDATE()) > 60;
